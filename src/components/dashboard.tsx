@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useServerFn } from "@tanstack/react-start";
-import { getLatestSensorData } from "@/lib/sensors.functions";
+import { fetchLatestSensorData } from "@/lib/sensors";
 import {
   Area,
   AreaChart,
@@ -46,10 +45,9 @@ export function Dashboard() {
   const [valveOn, setValveOn] = useState(false);
   const [pulse, setPulse] = useState(false);
 
-  const fetchLatest = useServerFn(getLatestSensorData);
   const { data: live } = useQuery({
     queryKey: ["sensor-latest"],
-    queryFn: () => fetchLatest(),
+    queryFn: fetchLatestSensorData,
     refetchInterval: 5_000,
     refetchOnWindowFocus: false,
   });
